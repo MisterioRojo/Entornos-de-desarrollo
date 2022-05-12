@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 /*
  * Por Alejandro Rodriguez Mena
  * 
- * V1.34
+ * V1.0
  * 
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
