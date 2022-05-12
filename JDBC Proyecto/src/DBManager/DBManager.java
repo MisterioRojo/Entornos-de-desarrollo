@@ -1,15 +1,17 @@
 package DBManager;
 
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
+
+
 import java.sql.ResultSet;
 
 /*
  * Por Alejandro Rodriguez Mena
  * 
- * V1.0
+ * V1.1
  * 
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -146,18 +148,18 @@ public class DBManager {
      * @param resultSetConcurrency Concurrencia del ResultSet
      * @return ResultSet (del tipo indicado) con la tabla, null en caso de error
      */
-    public static ResultSet getTablaClientes(int resultSetType, int resultSetConcurrency) {
+    public static ResultSet getTablaClientes(int resultSetType, int resultSetConcurrency) 
+    {
         try 
         {
-            Statement stmt = conn.createStatement(resultSetType, resultSetConcurrency);
-            ResultSet rs = stmt.executeQuery(DB_CLI_SELECT);
+        	PreparedStatement stmt = conn.prepareStatement(DB_CLI_SELECT, resultSetType, resultSetConcurrency);
+            ResultSet rs = stmt.executeQuery();
             //stmt.close();
             return rs;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
         }
-
     }
 
     /**
@@ -206,13 +208,11 @@ public class DBManager {
         try 
         {
             // Realizamos la consulta SQL
-            Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            String sql = DB_CLI_SELECT + " WHERE " + DB_CLI_ID + "='" + id + "';";
-            //System.out.println(sql);
-            ResultSet rs = stmt.executeQuery(sql);
-            //stmt.close();
-            
-            // Si no hay primer registro entonces no existe el cliente
+            String sql = DB_CLI_SELECT + " WHERE " + DB_CLI_ID + "= ?;";
+            PreparedStatement stmt = conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            stmt.setString(1, id+"");
+
+            ResultSet rs = stmt.executeQuery();
             if (!rs.first()) 
             {
                 return null;
@@ -308,7 +308,7 @@ public class DBManager {
         {
             // Obtenemos la tabla clientes
             System.out.print("Insertando cliente " + nombre + "...");
-            ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+            ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE);
 
             // Insertamos el nuevo registro
             rs.moveToInsertRow();
