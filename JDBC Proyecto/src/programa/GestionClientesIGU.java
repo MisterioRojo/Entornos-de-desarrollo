@@ -2,15 +2,16 @@ package programa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.swing.JOptionPane;
 
 import DBManager.DBManager;
 
 /*
  * Por Alejandro Rodriguez Mena
- * 
+ *
  * V1.1.1
- * 
+ *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
 
@@ -94,14 +95,16 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         btnVNCAceptar.setText("Aceptar");
         btnVNCAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVNCAceptarActionPerformed(evt);
             }
         });
 
         btnVNCCancelar.setText("Cancelar");
         btnVNCCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVNCCancelarActionPerformed(evt);
             }
         });
@@ -184,14 +187,16 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         btnVECAceptar.setText("Aceptar");
         btnVECAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVECAceptarActionPerformed(evt);
             }
         });
 
         btnVECCancelar.setText("Cancelar");
         btnVECCancelar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVECCancelarActionPerformed(evt);
             }
         });
@@ -264,7 +269,8 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosed(java.awt.event.WindowEvent evt) {
+            @Override
+			public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
             }
         });
@@ -275,28 +281,32 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         btnPrimero.setText("|<");
         btnPrimero.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrimeroActionPerformed(evt);
             }
         });
 
         btnAnterior.setText("<<");
         btnAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnteriorActionPerformed(evt);
             }
         });
 
         btnSiguiente.setText(">>");
         btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSiguienteActionPerformed(evt);
             }
         });
 
         btnUltimo.setText(">|");
         btnUltimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnUltimoActionPerformed(evt);
             }
         });
@@ -318,21 +328,24 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         btnNuevo.setText("NUEVO");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
             }
         });
 
         btnEditar.setText("EDITAR");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
             }
         });
 
         btnEliminar.setText("ELIMINAR");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
             }
         });
@@ -667,12 +680,12 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         ex.printStackTrace();
         JOptionPane.showMessageDialog(this, "Error inesperado:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
+
     // Muestra una ventana de aviso con el mensaje indicado
     private void muestraVentanaAviso(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Aviso", JOptionPane.WARNING_MESSAGE);
     }
-    
+
     // Muestra una ventana de aceptar/cancelar y devuelve true si le dió a aceptar
     private boolean muestraVentanaAceptarCancelar(String mensaje) {
         int result = JOptionPane.showConfirmDialog(this, mensaje, "Confirme la acción", JOptionPane.OK_CANCEL_OPTION);
@@ -683,7 +696,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -712,7 +725,8 @@ public class GestionClientesIGU extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+            @Override
+			public void run() {
                 new GestionClientesIGU().setVisible(true);
             }
         });

@@ -1,19 +1,17 @@
 package DBManager;
 
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.SQLException;
-
-
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /*
  * Por Alejandro Rodriguez Mena
- * 
+ *
  * V1.1.1
- * 
+ *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
 
@@ -43,26 +41,26 @@ public class DBManager {
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
     //////////////////////////////////////////////////
-  
+
     /**
      * Intenta cargar el JDBC driver.
      * @return true si pudo cargar el driver, false en caso contrario
      */
-    public static boolean loadDriver() 
+    public static boolean loadDriver()
     {
-    	try 
+    	try
     	{
     		System.out.print("Cargando Driver...");
     		Class.forName("com.mysql.cj.jdbc.Driver");
     		System.out.println("OK!");
     		return true;
-    	} 
-    	catch (ClassNotFoundException ex) 
+    	}
+    	catch (ClassNotFoundException ex)
     	{
     		ex.printStackTrace();
     		return false;
-    	} 
-    	catch (Exception ex) 
+    	}
+    	catch (Exception ex)
     	{
     		ex.printStackTrace();
     		return false;
@@ -74,16 +72,16 @@ public class DBManager {
      *
      * @return true si pudo conectarse, false en caso contrario
      */
-    public static boolean connect() 
+    public static boolean connect()
     {
-        try 
+        try
         {
             System.out.print("Conectando a la base de datos...");
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
             System.out.println("OK!");
             return true;
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
             return false;
@@ -95,22 +93,22 @@ public class DBManager {
      *
      * @return true si la conexión existe y es válida, false en caso contrario
      */
-    public static boolean isConnected() 
+    public static boolean isConnected()
     {
         // Comprobamos estado de la conexión
-        try 
+        try
         {
-            if (conn != null && conn.isValid(0)) 
+            if (conn != null && conn.isValid(0))
             {
                 System.out.println(DB_MSQ_CONN_OK);
                 return true;
-            } 
-            else 
+            }
+            else
             {
                 return false;
             }
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             System.out.println(DB_MSQ_CONN_NO);
             ex.printStackTrace();
@@ -121,15 +119,15 @@ public class DBManager {
     /**
      * Cierra la conexión con la base de datos
      */
-    public static void close() 
+    public static void close()
     {
-        try 
+        try
         {
             System.out.print("Cerrando la conexión...");
             conn.close();
             System.out.println("OK!");
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
         }
@@ -138,9 +136,9 @@ public class DBManager {
     //////////////////////////////////////////////////
     // MÉTODOS DE TABLA CLIENTES
     //////////////////////////////////////////////////
-    
-    
-    // Devuelve 
+
+
+    // Devuelve
     // Los argumentos indican el tipo de ResultSet deseado
     /**
      * Obtiene toda la tabla clientes de la base de datos
@@ -148,9 +146,9 @@ public class DBManager {
      * @param resultSetConcurrency Concurrencia del ResultSet
      * @return ResultSet (del tipo indicado) con la tabla, null en caso de error
      */
-    public static ResultSet getTablaClientes(int resultSetType, int resultSetConcurrency) 
+    public static ResultSet getTablaClientes(int resultSetType, int resultSetConcurrency)
     {
-        try 
+        try
         {
         	PreparedStatement stmt = conn.prepareStatement(DB_CLI_SELECT, resultSetType, resultSetConcurrency);
             ResultSet rs = stmt.executeQuery();
@@ -161,13 +159,13 @@ public class DBManager {
             return null;
         }
     }
-    
+
     /**
      * Obtiene toda la tabla clientes de la base de datos
      *
      * @return ResultSet (por defecto) con la tabla, null en caso de error
      */
-    public static ResultSet getTablaClientes() 
+    public static ResultSet getTablaClientes()
     {
         return getTablaClientes(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
     }
@@ -176,10 +174,10 @@ public class DBManager {
      * Imprime por pantalla el contenido de la tabla clientes
      */
     public static void printTablaClientes() {
-        try 
+        try
         {
             ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            while (rs.next()) 
+            while (rs.next())
             {
                 int id = rs.getInt(DB_CLI_ID);
                 String n = rs.getString(DB_CLI_NOM);
@@ -187,13 +185,13 @@ public class DBManager {
                 System.out.println(id + "\t" + n + "\t" + d);
             }
             rs.close();
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
         }
     }
-    
+
     /**
      *Devuelve una lista de nombres de los clientes de la base de datos de forma alfabetica.
      * @throws SQLException
@@ -203,25 +201,25 @@ public class DBManager {
     	String sentenciaSQL = "{cal llamada()}";
     	CallableStatement stmt = conn.prepareCall(sentenciaSQL);
     	ResultSet rs = stmt.executeQuery();
-    	
-        while (rs.next()) 
-        {  
-            System.out.println("Nombre: "+rs.getString(1));  
-        } 
+
+        while (rs.next())
+        {
+            System.out.println("Nombre: "+rs.getString(1));
+        }
 
     }
 
     //////////////////////////////////////////////////
     // MÉTODOS DE UN SOLO CLIENTE
     //////////////////////////////////////////////////
-    
+
     /**
      * Solicita a la BD el cliente con id indicado
      * @param id id del cliente
      * @return ResultSet con el resultado de la consulta, null en caso de error
      */
     public static ResultSet getCliente(int id) {
-        try 
+        try
         {
             // Realizamos la consulta SQL
             String sql = DB_CLI_SELECT + " WHERE " + DB_CLI_ID + "= ?;";
@@ -229,7 +227,7 @@ public class DBManager {
             stmt.setString(1, id+"");
 
             ResultSet rs = stmt.executeQuery();
-            if (!rs.first()) 
+            if (!rs.first())
             {
                 return null;
             }
@@ -237,8 +235,8 @@ public class DBManager {
             // Todo bien, devolvemos el cliente
             return rs;
 
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
             return null;
@@ -251,20 +249,20 @@ public class DBManager {
      * @param id del cliente
      * @return verdadero si existe, false en caso contrario
      */
-    public static boolean existsCliente(int id) 
+    public static boolean existsCliente(int id)
     {
         try {
             // Obtenemos el cliente
             ResultSet rs = getCliente(id);
 
             // Si rs es null, se ha producido un error
-            if (rs == null) 
+            if (rs == null)
             {
                 return false;
             }
 
             // Si no existe primer registro
-            if (!rs.first()) 
+            if (!rs.first())
             {
                 rs.close();
                 return false;
@@ -274,8 +272,8 @@ public class DBManager {
             rs.close();
             return true;
 
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
             return false;
@@ -287,25 +285,25 @@ public class DBManager {
      *
      * @param id id del cliente
      */
-    public static void printCliente(int id) 
+    public static void printCliente(int id)
     {
         try {
             // Obtenemos el cliente
             ResultSet rs = getCliente(id);
-            if (rs == null || !rs.first()) 
+            if (rs == null || !rs.first())
             {
                 System.out.println("Cliente " + id + " NO EXISTE");
                 return;
             }
-            
+
             // Imprimimos su información por pantalla
             int cid = rs.getInt(DB_CLI_ID);
             String nombre = rs.getString(DB_CLI_NOM);
             String direccion = rs.getString(DB_CLI_DIR);
             System.out.println("Cliente " + cid + "\t" + nombre + "\t" + direccion);
 
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             System.out.println("Error al solicitar cliente " + id);
             ex.printStackTrace();
@@ -320,7 +318,7 @@ public class DBManager {
      * @return verdadero si pudo insertarlo, false en caso contrario
      */
     public static boolean insertCliente(String nombre, String direccion) {
-        try 
+        try
         {
             // Obtenemos la tabla clientes
             System.out.print("Insertando cliente " + nombre + "...");
@@ -337,8 +335,8 @@ public class DBManager {
             System.out.println("OK!");
             return true;
 
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
             return false;
@@ -354,21 +352,21 @@ public class DBManager {
      * @return verdadero si pudo modificarlo, false en caso contrario
      */
     public static boolean updateCliente(int id, String nuevoNombre, String nuevaDireccion) {
-        try 
+        try
         {
             // Obtenemos el cliente
             System.out.print("Actualizando cliente " + id + "... ");
             ResultSet rs = getCliente(id);
 
             // Si no existe el Resultset
-            if (rs == null) 
+            if (rs == null)
             {
                 System.out.println("Error. ResultSet null.");
                 return false;
             }
 
             // Si tiene un primer registro, lo eliminamos
-            if (rs.first()) 
+            if (rs.first())
             {
                 rs.updateString(DB_CLI_NOM, nuevoNombre);
                 rs.updateString(DB_CLI_DIR, nuevaDireccion);
@@ -376,14 +374,14 @@ public class DBManager {
                 rs.close();
                 System.out.println("OK!");
                 return true;
-            } 
-            else 
+            }
+            else
             {
                 System.out.println("ERROR. ResultSet vacío.");
                 return false;
             }
-        } 
-        catch (SQLException ex) 
+        }
+        catch (SQLException ex)
         {
             ex.printStackTrace();
             return false;
@@ -396,7 +394,7 @@ public class DBManager {
      * @param id id del cliente a eliminar
      * @return verdadero si pudo eliminarlo, false en caso contrario
      */
-    public static boolean deleteCliente(int id) 
+    public static boolean deleteCliente(int id)
     {
         try {
             System.out.print("Eliminando cliente " + id + "... ");
@@ -405,29 +403,29 @@ public class DBManager {
             ResultSet rs = getCliente(id);
 
             // Si no existe el Resultset
-            if (rs == null) 
+            if (rs == null)
             {
                 System.out.println("ERROR. ResultSet null.");
                 return false;
             }
 
             // Si existe y tiene primer registro, lo eliminamos
-            if (rs.first()) 
+            if (rs.first())
             {
                 rs.deleteRow();
                 rs.close();
                 System.out.println("OK!");
                 return true;
-            } 
-            else 
+            }
+            else
             {
                 System.out.println("ERROR. ResultSet vacío.");
                 return false;
             }
 
-        } 
-        
-        catch (SQLException ex) 
+        }
+
+        catch (SQLException ex)
         {
             ex.printStackTrace();
             return false;

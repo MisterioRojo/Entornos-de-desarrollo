@@ -7,27 +7,27 @@ import DBManager.DBManager;
 
 /*
  * Por Alejandro Rodriguez Mena
- * 
- * V1.0
- * 
+ *
+ * V1.1.1
+ *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
 public class GestionClientes {
-	
+
 	public static Scanner in = new Scanner(System.in);
 
 	public static int pideInt(String mensaje){
 
-		while(true) 
+		while(true)
 		{
-			try 
+			try
 			{
 				System.out.print(mensaje);
 				int valor = in.nextInt();
 				//in.nextLine();
 				return valor;
-			} 
-			catch (InputMismatchException e) 
+			}
+			catch (InputMismatchException e)
 			{
 				System.out.println("No has introducido un número entero. Vuelve a intentarlo.");
 			}
@@ -55,18 +55,18 @@ public class GestionClientes {
 		}
 	}
 
-	public static void opcionMostrarClientes() 
+	public static void opcionMostrarClientes()
 	{
 		System.out.println("Listado de Clientes:");
 		DBManager.printTablaClientes();
 	}
-	
+
 	public static void opcionMostrarNombres() throws SQLException
 	{
 		System.out.println("Listado de Clientes: \n");
 		DBManager.printNombresClientes();
 	}
-	public static void opcionNuevoCliente() 
+	public static void opcionNuevoCliente()
 	{
 		System.out.println("Introduce los datos del nuevo cliente:");
 		String nombre = pideLinea("Nombre: ");
@@ -74,23 +74,23 @@ public class GestionClientes {
 
 		boolean res = DBManager.insertCliente(nombre, direccion);
 
-		if (res) 
+		if (res)
 		{
 			System.out.println("Cliente registrado correctamente");
-		} 
-		else 
+		}
+		else
 		{
 			System.out.println("Error :(");
 		}
 	}
 
-	public static void opcionModificarCliente() 
+	public static void opcionModificarCliente()
 	{
 
 		int id = pideInt("Indica el id del cliente a modificar: ");
 
 		// Comprobamos si existe el cliente
-		if (!DBManager.existsCliente(id)) 
+		if (!DBManager.existsCliente(id))
 		{
 			System.out.println("El cliente " + id + " no existe.");
 			return;
@@ -106,22 +106,22 @@ public class GestionClientes {
 		// Registramos los cambios
 		boolean res = DBManager.updateCliente(id, nombre, direccion);
 
-		if (res) 
+		if (res)
 		{
 			System.out.println("Cliente modificado correctamente");
-		} 
-		else 
+		}
+		else
 		{
 			System.out.println("Error :(");
 		}
 	}
 
-	public static void opcionEliminarCliente() 
+	public static void opcionEliminarCliente()
 	{
 		int id = pideInt("Indica el id del cliente a eliminar: ");
 
 		// Comprobamos si existe el cliente
-		if (!DBManager.existsCliente(id)) 
+		if (!DBManager.existsCliente(id))
 		{
 			System.out.println("El cliente " + id + " no existe.");
 			return;
@@ -130,17 +130,17 @@ public class GestionClientes {
 		// Eliminamos el cliente
 		boolean res = DBManager.deleteCliente(id);
 
-		if (res) 
+		if (res)
 		{
 			System.out.println("Cliente eliminado correctamente");
-		} 
-		else 
+		}
+		else
 		{
 			System.out.println("Error :(");
 		}
 	}
 
-	public static boolean menuPrincipal() throws SQLException 
+	public static boolean menuPrincipal() throws SQLException
 	{
 		System.out.println("");
 		System.out.println("MENU PRINCIPAL");
@@ -152,7 +152,7 @@ public class GestionClientes {
 		System.out.println("6. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
-		switch (opcion) 
+		switch (opcion)
 		{
 		case 1:
 		{
@@ -192,16 +192,16 @@ public class GestionClientes {
 		}
 	}
 
-	public static void main(String[] args) throws SQLException 
+	public static void main(String[] args) throws SQLException
 	{
 		DBManager.loadDriver();
 		DBManager.connect();
 
 		boolean salir = false;
-		do 
+		do
 		{
 			salir = menuPrincipal();
-		} 
+		}
 		while (!salir);
 
 		DBManager.close();
