@@ -9,7 +9,7 @@ import DBManager.DBManager;
 /*
  * Por Alejandro Rodriguez Mena
  * 
- * V1.0
+ * V1.1.1
  * 
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -436,8 +436,13 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         }
 
         // Cerramos la conexión a la base de datos
-        DBManager.close();
-    }//GEN-LAST:event_formWindowClosed
+        try {
+			DBManager.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+    //GEN-LAST:event_formWindowClosed
 
     private void btnPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeroActionPerformed
         muestraClientePrimero();

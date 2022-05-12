@@ -1,4 +1,6 @@
 package programa;
+import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import DBManager.DBManager;
@@ -6,7 +8,7 @@ import DBManager.DBManager;
 /*
  * Por Alejandro Rodriguez Mena
  * 
- * V1.1
+ * V1.0
  * 
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -16,14 +18,16 @@ public class GestionClientes {
 
 	public static int pideInt(String mensaje){
 
-		while(true) {
-			try {
+		while(true) 
+		{
+			try 
+			{
 				System.out.print(mensaje);
 				int valor = in.nextInt();
 				//in.nextLine();
 				return valor;
 			} 
-			catch (Exception e) 
+			catch (InputMismatchException e) 
 			{
 				System.out.println("No has introducido un número entero. Vuelve a intentarlo.");
 			}
@@ -56,7 +60,12 @@ public class GestionClientes {
 		System.out.println("Listado de Clientes:");
 		DBManager.printTablaClientes();
 	}
-
+	
+	public static void opcionMostrarNombres() throws SQLException
+	{
+		System.out.println("Listado de Clientes: \n");
+		DBManager.printNombresClientes();
+	}
 	public static void opcionNuevoCliente() 
 	{
 		System.out.println("Introduce los datos del nuevo cliente:");
@@ -131,7 +140,7 @@ public class GestionClientes {
 		}
 	}
 
-	public static boolean menuPrincipal() 
+	public static boolean menuPrincipal() throws SQLException 
 	{
 		System.out.println("");
 		System.out.println("MENU PRINCIPAL");
@@ -139,33 +148,51 @@ public class GestionClientes {
 		System.out.println("2. Nuevo cliente");
 		System.out.println("3. Modificar cliente");
 		System.out.println("4. Eliminar cliente");
-		System.out.println("5. Salir");
+		System.out.println("5. Ver nombres de los clientes ordenados");
+		System.out.println("6. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
-		in.nextLine();
 		switch (opcion) 
 		{
 		case 1:
+		{
 			opcionMostrarClientes();
 			return false;
+		}
 		case 2:
+		{
 			opcionNuevoCliente();
 			return false;
+		}
 		case 3:
+		{
 			opcionModificarCliente();
 			return false;
+		}
 		case 4:
+		{
 			opcionEliminarCliente();
 			return false;
+		}
 		case 5:
-			return true;
-		default:
-			System.out.println("Opcion elegida incorrecta");
+		{
+			opcionMostrarNombres();
 			return false;
+		}
+		case 6:
+		{
+			System.out.println("Has salido del menu.");
+			return true;
+		}
+		default:
+		{
+			System.err.println("Opcion elegida incorrecta");
+			return false;
+		}
 		}
 	}
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws SQLException 
 	{
 		DBManager.loadDriver();
 		DBManager.connect();

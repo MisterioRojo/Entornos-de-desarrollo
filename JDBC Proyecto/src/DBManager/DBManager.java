@@ -2,6 +2,7 @@ package DBManager;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -11,7 +12,7 @@ import java.sql.ResultSet;
 /*
  * Por Alejandro Rodriguez Mena
  * 
- * V1.1
+ * V1.1.1
  * 
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -42,31 +43,30 @@ public class DBManager {
     //////////////////////////////////////////////////
     // MÉTODOS DE CONEXIÓN A LA BASE DE DATOS
     //////////////////////////////////////////////////
-    ;
-    
+  
     /**
      * Intenta cargar el JDBC driver.
      * @return true si pudo cargar el driver, false en caso contrario
      */
     public static boolean loadDriver() 
     {
-        try 
-        {
-            System.out.print("Cargando Driver...");
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("OK!");
-            return true;
-        } 
-        catch (ClassNotFoundException ex) 
-        {
-            ex.printStackTrace();
-            return false;
-        } 
-        catch (Exception ex) 
-        {
-            ex.printStackTrace();
-            return false;
-        }
+    	try 
+    	{
+    		System.out.print("Cargando Driver...");
+    		Class.forName("com.mysql.cj.jdbc.Driver");
+    		System.out.println("OK!");
+    		return true;
+    	} 
+    	catch (ClassNotFoundException ex) 
+    	{
+    		ex.printStackTrace();
+    		return false;
+    	} 
+    	catch (Exception ex) 
+    	{
+    		ex.printStackTrace();
+    		return false;
+    	}
     }
 
     /**
@@ -138,7 +138,7 @@ public class DBManager {
     //////////////////////////////////////////////////
     // MÉTODOS DE TABLA CLIENTES
     //////////////////////////////////////////////////
-    ;
+    
     
     // Devuelve 
     // Los argumentos indican el tipo de ResultSet deseado
@@ -161,7 +161,7 @@ public class DBManager {
             return null;
         }
     }
-
+    
     /**
      * Obtiene toda la tabla clientes de la base de datos
      *
@@ -193,11 +193,27 @@ public class DBManager {
             ex.printStackTrace();
         }
     }
+    
+    /**
+     *Devuelve una lista de nombres de los clientes de la base de datos de forma alfabetica.
+     * @throws SQLException
+     */
+    public static void printNombresClientes() throws SQLException
+    {
+    	String sentenciaSQL = "{cal llamada()}";
+    	CallableStatement stmt = conn.prepareCall(sentenciaSQL);
+    	ResultSet rs = stmt.executeQuery();
+    	
+        while (rs.next()) 
+        {  
+            System.out.println("Nombre: "+rs.getString(1));  
+        } 
+
+    }
 
     //////////////////////////////////////////////////
     // MÉTODOS DE UN SOLO CLIENTE
     //////////////////////////////////////////////////
-    ;
     
     /**
      * Solicita a la BD el cliente con id indicado
@@ -232,7 +248,7 @@ public class DBManager {
     /**
      * Comprueba si en la BD existe el cliente con id indicado
      *
-     * @param id id del cliente
+     * @param id del cliente
      * @return verdadero si existe, false en caso contrario
      */
     public static boolean existsCliente(int id) 
