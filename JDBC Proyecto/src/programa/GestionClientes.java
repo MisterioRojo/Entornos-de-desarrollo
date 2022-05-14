@@ -144,12 +144,13 @@ public class GestionClientes {
 	{
 		System.out.println("");
 		System.out.println("MENU PRINCIPAL");
-		System.out.println("1. Listar clientes");
-		System.out.println("2. Nuevo cliente");
-		System.out.println("3. Modificar cliente");
-		System.out.println("4. Eliminar cliente");
-		System.out.println("5. Ver nombres de los clientes ordenados");
-		System.out.println("6. Salir");
+		System.out.println("1. Conectar a una base de datos.");
+		System.out.println("2. Listar clientes.");
+		System.out.println("3. Nuevo cliente.");
+		System.out.println("4. Modificar cliente.");
+		System.out.println("5. Eliminar cliente.");
+		System.out.println("6. Ver nombres de los clientes ordenados.");
+		System.out.println("7. Salir.");
 
 		int opcion = pideInt("Elige una opcion: ");
 		switch (opcion)
@@ -161,25 +162,30 @@ public class GestionClientes {
 		}
 		case 2:
 		{
-			opcionNuevoCliente();
+			opcionMostrarClientes();
 			return false;
 		}
 		case 3:
 		{
-			opcionModificarCliente();
+			opcionNuevoCliente();
 			return false;
 		}
 		case 4:
 		{
-			opcionEliminarCliente();
+			opcionModificarCliente();
 			return false;
 		}
 		case 5:
 		{
-			opcionMostrarNombres();
+			opcionEliminarCliente();
 			return false;
 		}
 		case 6:
+		{
+			opcionMostrarNombres();
+			return false;
+		}
+		case 7:
 		{
 			System.out.println("Has salido del menu.");
 			return true;
