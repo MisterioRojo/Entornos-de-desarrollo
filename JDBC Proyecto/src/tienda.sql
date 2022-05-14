@@ -84,5 +84,3 @@ BEGIN
 SELECT nombre from clientes order by 1;
 END
 $$
-
->>>>>>> refs/remotes/origin/V1.1.1
