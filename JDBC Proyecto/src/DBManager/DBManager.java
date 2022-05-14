@@ -482,9 +482,10 @@ public class DBManager {
     		tablaRS.close();
     		fw.close();
     	} 
-    	catch (Exception e) 
+    	catch (Exception ex) 
     	{
-    		System.out.println(e.getMessage());
+    		System.err.println("ERROR. No se ha podido volcar los datos.");
+    		System.out.println(ex.getMessage());
     	} 
 
     }
