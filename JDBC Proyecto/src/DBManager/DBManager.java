@@ -10,6 +10,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.Scanner;
 
 /*
  * Por Alejandro Rodriguez Mena
@@ -22,16 +23,11 @@ import java.sql.Types;
 
 public class DBManager {
 
-    // Conexión a la base de datos
+	 // Conexión a la base de datos
     private static Connection conn = null;
+    private static Scanner ent = new Scanner(System.in);
 
     // Configuración de la conexión a la base de datos
-    private static final String DB_HOST = "localhost";
-    private static final String DB_PORT = "3306";
-    private static final String DB_NAME = "tienda";
-    private static final String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
-    private static final String DB_USER = "root";
-    private static final String DB_PASS = "";
     private static final String DB_MSQ_CONN_OK = "CONEXIÓN CORRECTA";
     private static final String DB_MSQ_CONN_NO = "ERROR EN LA CONEXIÓN";
 
