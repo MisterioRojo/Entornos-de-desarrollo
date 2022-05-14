@@ -89,7 +89,7 @@ public class DBManager {
     		System.out.println("Nombre de usuario: ");
     		String DB_USER = ent.nextLine();
     		
-    		System.out.println("Contraseña: ");
+    		System.out.println("Password: ");
     		String DB_PASS = ent.nextLine();
     		
     		conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
