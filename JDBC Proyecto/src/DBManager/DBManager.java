@@ -441,9 +441,11 @@ public class DBManager {
     	try 
     	{
     		FileWriter fw = new FileWriter(tabla_ + ".txt");
-
+    		String sentenciaSQL = "select * from ";
+    		
     		Statement statement = conn.createStatement();
-    		ResultSet tablaRS = statement.executeQuery("select * from " + tabla_);
+    		ResultSet tablaRS = statement.executeQuery(sentenciaSQL + tabla_);
+    		
     		ResultSetMetaData tablaMD = tablaRS.getMetaData();
 
     		// Nombre BD y Nombre Tabla
