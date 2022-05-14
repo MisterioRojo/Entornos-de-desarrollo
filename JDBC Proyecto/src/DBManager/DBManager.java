@@ -64,17 +64,17 @@ public class DBManager {
     }
     
     /**
-     * Intenta conectar con la base de datos.
+     * Intenta conectar con la base de datos. Introduciendo nosotros los datos manualmente.
      *
      * @return true si pudo conectarse, false en caso contrario
      */
     public static boolean connect() 
     {
+		// Create a connection to the database
+    	System.out.println("Deben de introducirse los datos para poder conectarse a la base de datos.");
+		System.out.print("Conectando a la base de datos...");
     	try 
     	{
-    		// Create a connection to the database
-    		System.out.print("Conectando a la base de datos...");
-    		
     		System.out.println("Ip del host: ");
     		String DB_HOST = ent.nextLine();;
     		
