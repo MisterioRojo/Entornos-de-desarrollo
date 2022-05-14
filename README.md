@@ -1,3 +1,5 @@
 # Entornos-de-desarrollo
 
-Ejercicio de Java y usando base de datos con MySql. Archivos dados por el profesor sin modificacion.
+- Cambios menores en la ortografia.
+- Nuevo metodo en GestionClientes.java. Permitira hacer llamada a un procedimiento almacenado.
+- Modificacion en la base de datos, se ha incluido un procedimiento almacenado.
