@@ -1,3 +1,5 @@
 # Entornos-de-desarrollo
 
-Ejercicio de Java y usando base de datos con MySql. Archivos dados por el profesor sin modificacion.
+- Cambios en la ortografia del programa
+- Modificacion de metodos ya existentes.
+- Modificacion en la clase DBManager.java
