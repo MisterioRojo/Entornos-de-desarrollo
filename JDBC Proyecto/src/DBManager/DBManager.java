@@ -438,7 +438,8 @@ public class DBManager {
 
     public static void volcarTabla(String tabla_){
 
-    	try {
+    	try 
+    	{
     		FileWriter fw = new FileWriter(tabla_ + ".txt");
 
     		Statement statement = conn.createStatement();
@@ -450,18 +451,25 @@ public class DBManager {
 
     		// Cabecera
     		int cantidadCol = tablaMD.getColumnCount();
-    		for(int i = 1; i <= cantidadCol; i++){
+
+    		for(int i = 1; i <= cantidadCol; i++)
+    		{
     			String nombreCol = tablaMD.getColumnName(i);
     			fw.write(i < cantidadCol ? nombreCol+",":nombreCol+"\n");
     		}
 
     		// Datos
-    		while(tablaRS.next()) {
+    		while(tablaRS.next()) 
+    		{
     			String registro = "";
-    			for (int i = 1; i <= cantidadCol; i++) {
-    				if(tablaMD.getColumnType(i) == Types.INTEGER) {
+    			for (int i = 1; i <= cantidadCol; i++) 
+    			{
+    				if(tablaMD.getColumnType(i) == Types.INTEGER) 
+    				{
     					registro += i < cantidadCol ? tablaRS.getInt(i) + ",": tablaRS.getInt(i) + "\n";
-    				}else {
+    				}
+    				else 
+    				{
     					registro += i < cantidadCol ? tablaRS.getString(i) + ",": tablaRS.getString(i) + "\n";
     				}
     			}
@@ -471,7 +479,9 @@ public class DBManager {
     		statement.close();
     		tablaRS.close();
     		fw.close();
-    	} catch (Exception e) {
+    	} 
+    	catch (Exception e) 
+    	{
     		System.out.println(e.getMessage());
     	} 
 
