@@ -14,7 +14,7 @@ import DBManager.DBManager;
  */
 public class GestionClientes {
 
-	public static Scanner in = new Scanner(System.in);
+	public static Scanner ent = new Scanner(System.in);
 
 	public static int pideInt(String mensaje){
 
@@ -23,8 +23,7 @@ public class GestionClientes {
 			try
 			{
 				System.out.print(mensaje);
-				int valor = in.nextInt();
-				//in.nextLine();
+				int valor = ent.nextInt();
 				return valor;
 			}
 			catch (InputMismatchException e)
@@ -33,7 +32,7 @@ public class GestionClientes {
 			}
 			finally
 			{
-				in.nextLine();
+				ent.nextLine();
 			}
 		}
 	}
@@ -43,14 +42,14 @@ public class GestionClientes {
 		while(true) {
 			try {
 				System.out.print(mensaje);
-				String linea = in.nextLine();
+				String linea = ent.nextLine();
 				return linea;
 			} catch (Exception e) {
 				System.out.println("No has introducido una cadena de texto. Vuelve a intentarlo.");
 			}
 			finally
 			{
-				in.nextLine();
+				ent.nextLine();
 			}
 		}
 	}
@@ -59,6 +58,13 @@ public class GestionClientes {
 	{
 		System.out.println("Listado de Clientes:");
 		DBManager.printTablaClientes();
+	}
+	
+	public static void opcionVolcarTabla()
+	{
+		System.out.println("¿Que tabla quieres volvar?: ");
+		String tabla = ent.nextLine();;
+		DBManager.volcarTabla(tabla);
 	}
 
 	public static void opcionMostrarNombres() throws SQLException
@@ -149,7 +155,8 @@ public class GestionClientes {
 		System.out.println("3. Modificar cliente");
 		System.out.println("4. Eliminar cliente");
 		System.out.println("5. Ver nombres de los clientes ordenados");
-		System.out.println("6. Salir");
+		System.out.println("6. Volcar datos de una tabla");
+		System.out.println("7. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
 		switch (opcion)
@@ -181,9 +188,15 @@ public class GestionClientes {
 		}
 		case 6:
 		{
+			opcionVolcarTabla();
+			return false;
+		}
+		case 7:
+		{
 			System.out.println("Has salido del menu.");
 			return true;
 		}
+		
 		default:
 		{
 			System.err.println("Opcion elegida incorrecta");

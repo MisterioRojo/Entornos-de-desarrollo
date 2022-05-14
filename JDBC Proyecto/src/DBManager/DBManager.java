@@ -1,11 +1,15 @@
 package DBManager;
 
+import java.io.FileWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Types;
 
 /*
  * Por Alejandro Rodriguez Mena
@@ -430,6 +434,47 @@ public class DBManager {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    public static void volcarTabla(String tabla_){
+
+    	try {
+    		FileWriter fw = new FileWriter(tabla_ + ".txt");
+
+    		Statement statement = conn.createStatement();
+    		ResultSet tablaRS = statement.executeQuery("select * from " + tabla_);
+    		ResultSetMetaData tablaMD = tablaRS.getMetaData();
+
+    		// Nombre BD y Nombre Tabla
+    		fw.write(DB_NAME + " " + tablaMD.getTableName(1) + "\n");
+
+    		// Cabecera
+    		int cantidadCol = tablaMD.getColumnCount();
+    		for(int i = 1; i <= cantidadCol; i++){
+    			String nombreCol = tablaMD.getColumnName(i);
+    			fw.write(i < cantidadCol ? nombreCol+",":nombreCol+"\n");
+    		}
+
+    		// Datos
+    		while(tablaRS.next()) {
+    			String registro = "";
+    			for (int i = 1; i <= cantidadCol; i++) {
+    				if(tablaMD.getColumnType(i) == Types.INTEGER) {
+    					registro += i < cantidadCol ? tablaRS.getInt(i) + ",": tablaRS.getInt(i) + "\n";
+    				}else {
+    					registro += i < cantidadCol ? tablaRS.getString(i) + ",": tablaRS.getString(i) + "\n";
+    				}
+    			}
+    			fw.write(registro);
+    		}
+
+    		statement.close();
+    		tablaRS.close();
+    		fw.close();
+    	} catch (Exception e) {
+    		System.out.println(e.getMessage());
+    	} 
+
     }
 
 }
