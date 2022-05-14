@@ -1,21 +1,17 @@
 package DBManager;
 
-import java.io.FileWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
 import java.util.Scanner;
 
 /*
  * Por Alejandro Rodriguez Mena
  *
- * V1.1.1
+ * V1.2
  *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -23,7 +19,7 @@ import java.util.Scanner;
 
 public class DBManager {
 
-	 // Conexión a la base de datos
+    // Conexión a la base de datos
     private static Connection conn = null;
     private static Scanner ent = new Scanner(System.in);
 
@@ -66,27 +62,47 @@ public class DBManager {
     		return false;
     	}
     }
-
+    
     /**
-     * Intenta conectar con la base de datos.
+     * Intenta conectar con la base de datos. Introduciendo nosotros los datos manualmente.
      *
      * @return true si pudo conectarse, false en caso contrario
      */
-    public static boolean connect()
+    public static boolean connect() 
     {
-        try
-        {
-            System.out.print("Conectando a la base de datos...");
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
-            System.out.println("OK!");
-            return true;
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-            return false;
-        }
+		// Create a connection to the database
+    	System.out.println("Deben de introducirse los datos para poder conectarse a la base de datos.");
+		System.out.print("Conectando a la base de datos...");
+    	try 
+    	{
+    		System.out.println("Ip del host: ");
+    		String DB_HOST = ent.nextLine();;
+    		
+    		System.out.println("Puerto: ");
+    		String DB_PORT = ent.nextLine();
+    		
+    		System.out.println("Nombre de la base de datos: ");
+    		String DB_NAME = ent.nextLine();
+    		
+    		String DB_URL = "jdbc:mysql://" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME + "?serverTimezone=UTC";
+    		
+    		System.out.println("Nombre de usuario: ");
+    		String DB_USER = ent.nextLine();
+    		
+    		System.out.println("Password: ");
+    		String DB_PASS = ent.nextLine();
+    		
+    		conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    		System.out.println("OK!");
+    		return true;
+    	}
+    	catch (SQLException ex)
+    	{
+    		ex.printStackTrace();
+    		return false;
+    	}
     }
+
 
     /**
      * Comprueba la conexión y muestra su estado por pantalla
@@ -430,60 +446,6 @@ public class DBManager {
             ex.printStackTrace();
             return false;
         }
-    }
-
-    public static void volcarTabla(String tabla_){
-
-    	try 
-    	{
-    		FileWriter fw = new FileWriter(tabla_ + ".txt");
-    		String sentenciaSQL = "select * from ";
-    		
-    		Statement statement = conn.createStatement();
-    		ResultSet tablaRS = statement.executeQuery(sentenciaSQL + tabla_);
-    		
-    		ResultSetMetaData tablaMD = tablaRS.getMetaData();
-
-    		// Nombre BD y Nombre Tabla
-    		fw.write(DB_NAME + " " + tablaMD.getTableName(1) + "\n");
-
-    		// Cabecera
-    		int cantidadCol = tablaMD.getColumnCount();
-
-    		for(int i = 1; i <= cantidadCol; i++)
-    		{
-    			String nombreCol = tablaMD.getColumnName(i);
-    			fw.write(i < cantidadCol ? nombreCol+",":nombreCol+"\n");
-    		}
-
-    		// Datos
-    		while(tablaRS.next()) 
-    		{
-    			String registro = "";
-    			for (int i = 1; i <= cantidadCol; i++) 
-    			{
-    				if(tablaMD.getColumnType(i) == Types.INTEGER) 
-    				{
-    					registro += i < cantidadCol ? tablaRS.getInt(i) + ",": tablaRS.getInt(i) + "\n";
-    				}
-    				else 
-    				{
-    					registro += i < cantidadCol ? tablaRS.getString(i) + ",": tablaRS.getString(i) + "\n";
-    				}
-    			}
-    			fw.write(registro);
-    		}
-
-    		statement.close();
-    		tablaRS.close();
-    		fw.close();
-    	} 
-    	catch (Exception ex) 
-    	{
-    		System.err.println("ERROR. No se ha podido volcar los datos.");
-    		System.out.println(ex.getMessage());
-    	} 
-
     }
 
 }
