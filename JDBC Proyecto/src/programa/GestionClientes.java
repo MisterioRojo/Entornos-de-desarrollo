@@ -19,6 +19,8 @@ public class GestionClientes {
     private static final String insertar = "./insertar.txt";
     
     private static final String actualizar = "./update.txt";
+    
+    private static final String borrar = "./delete.txt";
 
 	public static int pideInt(String mensaje)
 	{
@@ -159,6 +161,11 @@ public class GestionClientes {
 	{
 		DBManager.updatePorFichero(actualizar);
 	}
+	
+	public static void  eliminarCliente()
+	{
+		DBManager.removePorFichero(borrar);
+	}
 
 	public static boolean menuPrincipal() throws SQLException
 	{
@@ -171,6 +178,7 @@ public class GestionClientes {
 		System.out.println("5. Eliminar cliente");
 		System.out.println("6. Ver nombres de los clientes ordenados");
 		System.out.println("7. Volcar datos de una tabla");
+		System.out.println("7. Eliminar datos de una tabla");
 		System.out.println("8. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
@@ -213,6 +221,11 @@ public class GestionClientes {
 			return false;
 		}
 		case 8:
+		{
+			System.out.println("Has salido del menu.");
+			return true;
+		}
+		case 9:
 		{
 			System.out.println("Has salido del menu.");
 			return true;

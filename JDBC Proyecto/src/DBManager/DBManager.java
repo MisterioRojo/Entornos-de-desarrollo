@@ -440,7 +440,7 @@ public class DBManager {
     }
 
     /**
-     * 
+     *
      * @param tabla_
      */
     public static void volcarTabla(String tabla_)
@@ -499,12 +499,12 @@ public class DBManager {
 
     // METODO INSERTAR
     /**
-     * 
+     *
      * @param ruta
      */
     public static void insertarPorFichero(String ruta)
     {
-    	try 
+    	try
     	{
     		BufferedReader br = new BufferedReader(new FileReader(ruta));
 
@@ -561,17 +561,21 @@ public class DBManager {
     		statement.close();
     		tablaRS.close();
     		br.close();
-    	} 
-    	catch (Exception ex) 
+    	}
+    	catch (Exception ex)
     	{
     		System.err.println(ex.getMessage());
     		ex.printStackTrace();
     	}
     }
-    
-    public static void updatePorFichero(String ruta) 
+
+    /**
+     * 
+     * @param ruta
+     */
+    public static void updatePorFichero(String ruta)
     {
-    	try 
+    	try
     	{
     		BufferedReader br = new BufferedReader(new FileReader(ruta));
 
@@ -579,7 +583,7 @@ public class DBManager {
     		String[] infoPrincipal = new String[3];
 
     		// BD, Nombre de tabla y Cabecera
-    		for (int nl = 1; nl <= 3; nl++) 
+    		for (int nl = 1; nl <= 3; nl++)
     		{
     			linea = br.readLine();
     			infoPrincipal[nl - 1] = linea;
@@ -613,7 +617,7 @@ public class DBManager {
     		}
 
     		// Formulo la sentencia y envio el update
-    		while ((linea = br.readLine()) != null) 
+    		while ((linea = br.readLine()) != null)
     		{
     			String[] datos = linea.split(",");
     			String[] columnas_ = columnas.split(",");
@@ -621,7 +625,7 @@ public class DBManager {
     			String sentenciaWhere = primaryKeys + "=" + primaryKeys_;
     			String sentenciaSet = "";
 
-    			for (int i = 1; i <= columnas_.length; i++) 
+    			for (int i = 1; i <= columnas_.length; i++)
     			{
     				sentenciaSet += tipos[i-1] == "VARCHAR" ? columnas_[i-1] + "='" + datos[i] + "',"
     						: columnas_[i-1] + "=" + datos[i] + ",";
@@ -635,12 +639,67 @@ public class DBManager {
     		statement.close();
     		tablaRS.close();
     		br.close();
-    	} 
-    	catch (Exception e) 
+    	}
+    	catch (Exception ex)
     	{
-    		System.err.println(e.getMessage());
-    		e.printStackTrace();
+    		System.err.println(ex.getMessage());
+    		ex.printStackTrace();
     	}
     }
+
+    /**
+     * 
+     * @param ruta
+     */
+    public static void removePorFichero(String ruta)
+    {
+		try
+		{
+			BufferedReader br = new BufferedReader(new FileReader(ruta));
+
+			String linea = "";
+			String[] infoPrincipal = new String[2];
+
+			// BD, Nombre de tabla y Cabecera
+			for (int nl = 1; nl <= 2; nl++) 
+			{
+				linea = br.readLine();
+				infoPrincipal[nl - 1] = linea;
+			}
+
+			String bd = infoPrincipal[0];
+			String nombre = infoPrincipal[1];
+
+			Statement statement = conn.createStatement();
+
+			// Busco las primary keys
+			DatabaseMetaData dmd = conn.getMetaData();
+			ResultSet rspk = dmd.getPrimaryKeys(null, null, nombre);
+
+			String primaryKeyNombre = "";
+			while (rspk.next())
+				primaryKeyNombre = rspk.getString("COLUMN_NAME");
+
+			// Formulo la sentencia y envio el update
+			while ((linea = br.readLine()) != null)
+			{
+				String[] primaryKeys = linea.split(",");
+				for (String primaryKey : primaryKeys) 
+				{
+					String sentenciaWhere = primaryKeyNombre + "=" + primaryKey;
+					String stringSQL = "delete from " + bd + "." + nombre + " where " + sentenciaWhere;
+					statement.executeUpdate(stringSQL);
+				}
+			}
+
+			statement.close();
+			br.close();
+		}
+		catch (Exception ex)
+		{
+			System.err.println(ex.getMessage());
+			ex.printStackTrace();
+		}
+	}
 
 }
