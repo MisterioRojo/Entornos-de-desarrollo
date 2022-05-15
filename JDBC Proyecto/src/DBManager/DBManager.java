@@ -1,8 +1,11 @@
 package DBManager;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -436,16 +439,20 @@ public class DBManager {
         }
     }
 
-    public static void volcarTabla(String tabla_){
-
-    	try 
+    /**
+     * 
+     * @param tabla_
+     */
+    public static void volcarTabla(String tabla_)
+    {
+    	try
     	{
     		FileWriter fw = new FileWriter(tabla_ + ".txt");
     		String sentenciaSQL = "select * from ";
-    		
+
     		Statement statement = conn.createStatement();
     		ResultSet tablaRS = statement.executeQuery(sentenciaSQL + tabla_);
-    		
+
     		ResultSetMetaData tablaMD = tablaRS.getMetaData();
 
     		// Nombre BD y Nombre Tabla
@@ -461,16 +468,16 @@ public class DBManager {
     		}
 
     		// Datos
-    		while(tablaRS.next()) 
+    		while(tablaRS.next())
     		{
     			String registro = "";
-    			for (int i = 1; i <= cantidadCol; i++) 
+    			for (int i = 1; i <= cantidadCol; i++)
     			{
-    				if(tablaMD.getColumnType(i) == Types.INTEGER) 
+    				if(tablaMD.getColumnType(i) == Types.INTEGER)
     				{
     					registro += i < cantidadCol ? tablaRS.getInt(i) + ",": tablaRS.getInt(i) + "\n";
     				}
-    				else 
+    				else
     				{
     					registro += i < cantidadCol ? tablaRS.getString(i) + ",": tablaRS.getString(i) + "\n";
     				}
@@ -481,13 +488,159 @@ public class DBManager {
     		statement.close();
     		tablaRS.close();
     		fw.close();
-    	} 
-    	catch (Exception ex) 
+    	}
+    	catch (Exception ex)
     	{
     		System.err.println("ERROR. No se ha podido volcar los datos.");
     		System.out.println(ex.getMessage());
-    	} 
+    	}
 
+    }
+
+    // METODO INSERTAR
+    /**
+     * 
+     * @param ruta
+     */
+    public static void insertarPorFichero(String ruta)
+    {
+    	try 
+    	{
+    		BufferedReader br = new BufferedReader(new FileReader(ruta));
+
+    		String linea = "";
+    		String[] infoPrincipal = new String[3];
+
+    		// BD, Nombre de tabla y Cabecera
+    		for (int nl = 1; nl <= 3; nl++)
+    		{
+    			linea = br.readLine();
+    			infoPrincipal[nl - 1] = linea;
+    		}
+
+    		String bd = infoPrincipal[0];
+    		String nombre = infoPrincipal[1];
+    		String columnas = infoPrincipal[2];
+
+    		Statement statement = conn.createStatement();
+    		ResultSet tablaRS = statement.executeQuery("select " + columnas + " from " + nombre + " limit 1;");
+    		ResultSetMetaData tablaMD = tablaRS.getMetaData();
+
+    		// Busco los tipos de cada columna
+    		int cantidadColumnas = tablaMD.getColumnCount();
+    		String[] tipos = new String[cantidadColumnas];
+
+    		for (int i = 1; i <= cantidadColumnas; i++)
+    		{
+    			tipos[i - 1] = tablaMD.getColumnTypeName(i);
+    		}
+
+    		// Separo cada registro por columna y verifico con el array que dato es
+    		// y lo agrego a los registros totales
+    		String registros = "\n";
+
+    		while ((linea = br.readLine()) != null)
+    		{
+    			String[] datos = linea.split(",");
+    			String registro = "";
+
+    			for (int i = 0; i < cantidadColumnas; i++)
+    			{
+    				registro += tipos[i] == "VARCHAR" ? "'" + datos[i] + "'," : datos[i] + ",";
+    			}
+
+    			registro = registro.substring(0, registro.length() - 1);
+    			registros += "(" + registro + "),\n";
+    		}
+
+    		registros = registros.substring(0, registros.length() - 2);
+
+    		String stringSQL = "insert into " + bd + "." + nombre + "\n(" + columnas + ") \nvalues " + registros;
+    		statement.executeUpdate(stringSQL);
+
+    		statement.close();
+    		tablaRS.close();
+    		br.close();
+    	} 
+    	catch (Exception ex) 
+    	{
+    		System.err.println(ex.getMessage());
+    		ex.printStackTrace();
+    	}
+    }
+    
+    public static void updatePorFichero(String ruta) 
+    {
+    	try 
+    	{
+    		BufferedReader br = new BufferedReader(new FileReader(ruta));
+
+    		String linea = "";
+    		String[] infoPrincipal = new String[3];
+
+    		// BD, Nombre de tabla y Cabecera
+    		for (int nl = 1; nl <= 3; nl++) 
+    		{
+    			linea = br.readLine();
+    			infoPrincipal[nl - 1] = linea;
+    		}
+
+    		String bd = infoPrincipal[0];
+    		String nombre = infoPrincipal[1];
+    		String columnas = infoPrincipal[2];
+
+    		Statement statement = conn.createStatement();
+    		ResultSet tablaRS = statement.executeQuery("select " + columnas + " from " + nombre + " limit 1");
+    		ResultSetMetaData tablaMD = tablaRS.getMetaData();
+
+    		// Busco los tipos de cada columna
+    		int cantidadColumnas = tablaMD.getColumnCount();
+    		String[] tipos = new String[cantidadColumnas];
+
+    		for (int i = 1; i <= cantidadColumnas; i++)
+    		{
+    			tipos[i - 1] = tablaMD.getColumnTypeName(i);
+    		}
+
+    		// Busco las primary keys
+    		DatabaseMetaData dmd = conn.getMetaData();
+    		ResultSet rspk = dmd.getPrimaryKeys(null, null, nombre);
+
+    		String primaryKeys = "";
+    		while (rspk.next())
+    		{
+    			primaryKeys = rspk.getString("COLUMN_NAME");
+    		}
+
+    		// Formulo la sentencia y envio el update
+    		while ((linea = br.readLine()) != null) 
+    		{
+    			String[] datos = linea.split(",");
+    			String[] columnas_ = columnas.split(",");
+    			String primaryKeys_ = datos[0];
+    			String sentenciaWhere = primaryKeys + "=" + primaryKeys_;
+    			String sentenciaSet = "";
+
+    			for (int i = 1; i <= columnas_.length; i++) 
+    			{
+    				sentenciaSet += tipos[i-1] == "VARCHAR" ? columnas_[i-1] + "='" + datos[i] + "',"
+    						: columnas_[i-1] + "=" + datos[i] + ",";
+    			}
+    			sentenciaSet = sentenciaSet.substring(0, sentenciaSet.length() - 1);
+
+    			String stringSQL = "update " + bd + "." + nombre + " set " + sentenciaSet + " where " + sentenciaWhere;
+    			statement.executeUpdate(stringSQL);
+    		}
+
+    		statement.close();
+    		tablaRS.close();
+    		br.close();
+    	} 
+    	catch (Exception e) 
+    	{
+    		System.err.println(e.getMessage());
+    		e.printStackTrace();
+    	}
     }
 
 }

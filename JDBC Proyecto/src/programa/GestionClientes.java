@@ -15,9 +15,13 @@ import DBManager.DBManager;
 public class GestionClientes {
 
 	public static Scanner ent = new Scanner(System.in);
+	
+    private static final String insertar = "./insertar.txt";
+    
+    private static final String actualizar = "./update.txt";
 
-	public static int pideInt(String mensaje){
-
+	public static int pideInt(String mensaje)
+	{
 		while(true)
 		{
 			try
@@ -145,6 +149,16 @@ public class GestionClientes {
 			System.out.println("Error :(");
 		}
 	}
+	
+	public static void insertarCliente()
+	{
+		DBManager.insertarPorFichero(insertar);
+	}
+	
+	public static void actualizarCliente()
+	{
+		DBManager.updatePorFichero(actualizar);
+	}
 
 	public static boolean menuPrincipal() throws SQLException
 	{
@@ -152,11 +166,12 @@ public class GestionClientes {
 		System.out.println("MENU PRINCIPAL");
 		System.out.println("1. Listar clientes");
 		System.out.println("2. Nuevo cliente");
-		System.out.println("3. Modificar cliente");
-		System.out.println("4. Eliminar cliente");
-		System.out.println("5. Ver nombres de los clientes ordenados");
-		System.out.println("6. Volcar datos de una tabla");
-		System.out.println("7. Salir");
+		System.out.println("3. Actualizar cliente");
+		System.out.println("4. Modificar cliente");
+		System.out.println("5. Eliminar cliente");
+		System.out.println("6. Ver nombres de los clientes ordenados");
+		System.out.println("7. Volcar datos de una tabla");
+		System.out.println("8. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
 		switch (opcion)
@@ -168,30 +183,36 @@ public class GestionClientes {
 		}
 		case 2:
 		{
-			opcionNuevoCliente();
+//			opcionNuevoCliente();
+			insertarCliente();
 			return false;
 		}
 		case 3:
 		{
-			opcionModificarCliente();
+			actualizarCliente();
 			return false;
 		}
 		case 4:
 		{
-			opcionEliminarCliente();
+			opcionModificarCliente();
 			return false;
 		}
 		case 5:
 		{
-			opcionMostrarNombres();
+			opcionEliminarCliente();
 			return false;
 		}
 		case 6:
 		{
-			opcionVolcarTabla();
+			opcionMostrarNombres();
 			return false;
 		}
 		case 7:
+		{
+			opcionVolcarTabla();
+			return false;
+		}
+		case 8:
 		{
 			System.out.println("Has salido del menu.");
 			return true;

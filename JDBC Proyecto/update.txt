@@ -1,0 +1,5 @@
+tienda
+clientes
+nombre,direccion
+1,juan,callefalsa1
+2,denice,callefalsea2
