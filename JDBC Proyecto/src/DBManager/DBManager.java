@@ -324,32 +324,31 @@ public class DBManager {
      * @param direccion dirección del cliente
      * @return verdadero si pudo insertarlo, false en caso contrario
      */
-    public static boolean insertCliente(String nombre, String direccion) {
-        try
-        {
-            // Obtenemos la tabla clientes
-            System.out.print("Insertando cliente " + nombre + "...");
-            ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE);
-
-            // Insertamos el nuevo registro
-            rs.moveToInsertRow();
-            rs.updateString(DB_CLI_NOM, nombre);
-            rs.updateString(DB_CLI_DIR, direccion);
-            rs.insertRow();
-
-            // Todo bien, cerramos ResultSet y devolvemos true
-            rs.close();
-            System.out.println("OK!");
-            return true;
-
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
+//    public static boolean insertCliente(String nombre, String direccion) {
+//        try
+//        {
+//            // Obtenemos la tabla clientes
+//            System.out.print("Insertando cliente " + nombre + "...");
+//            ResultSet rs = getTablaClientes(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE);
+//
+//            // Insertamos el nuevo registro
+//            rs.moveToInsertRow();
+//            rs.updateString(DB_CLI_NOM, nombre);
+//            rs.updateString(DB_CLI_DIR, direccion);
+//            rs.insertRow();
+//
+//            // Todo bien, cerramos ResultSet y devolvemos true
+//            rs.close();
+//            System.out.println("OK!");
+//            return true;
+//
+//        }
+//        catch (SQLException ex)
+//        {
+//            ex.printStackTrace();
+//            return false;
+//        }
+//    }
     /**
      * Solicita a la BD modificar los datos de un cliente
      *
@@ -358,87 +357,85 @@ public class DBManager {
      * @param direccion nueva dirección del cliente
      * @return verdadero si pudo modificarlo, false en caso contrario
      */
-    public static boolean updateCliente(int id, String nuevoNombre, String nuevaDireccion) {
-        try
-        {
-            // Obtenemos el cliente
-            System.out.print("Actualizando cliente " + id + "... ");
-            ResultSet rs = getCliente(id);
-
-            // Si no existe el Resultset
-            if (rs == null)
-            {
-                System.out.println("Error. ResultSet null.");
-                return false;
-            }
-
-            // Si tiene un primer registro, lo eliminamos
-            if (rs.first())
-            {
-                rs.updateString(DB_CLI_NOM, nuevoNombre);
-                rs.updateString(DB_CLI_DIR, nuevaDireccion);
-                rs.updateRow();
-                rs.close();
-                System.out.println("OK!");
-                return true;
-            }
-            else
-            {
-                System.out.println("ERROR. ResultSet vacío.");
-                return false;
-            }
-        }
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
+//    public static boolean updateCliente(int id, String nuevoNombre, String nuevaDireccion) {
+//        try
+//        {
+//            // Obtenemos el cliente
+//            System.out.print("Actualizando cliente " + id + "... ");
+//            ResultSet rs = getCliente(id);
+//
+//            // Si no existe el Resultset
+//            if (rs == null)
+//            {
+//                System.out.println("Error. ResultSet null.");
+//                return false;
+//            }
+//
+//            // Si tiene un primer registro, lo eliminamos
+//            if (rs.first())
+//            {
+//                rs.updateString(DB_CLI_NOM, nuevoNombre);
+//                rs.updateString(DB_CLI_DIR, nuevaDireccion);
+//                rs.updateRow();
+//                rs.close();
+//                System.out.println("OK!");
+//                return true;
+//            }
+//            else
+//            {
+//                System.out.println("ERROR. ResultSet vacío.");
+//                return false;
+//            }
+//        }
+//        catch (SQLException ex)
+//        {
+//            ex.printStackTrace();
+//            return false;
+//        }
+//    }
     /**
      * Solicita a la BD eliminar un cliente
      *
      * @param id id del cliente a eliminar
      * @return verdadero si pudo eliminarlo, false en caso contrario
      */
-    public static boolean deleteCliente(int id)
-    {
-        try {
-            System.out.print("Eliminando cliente " + id + "... ");
-
-            // Obtenemos el cliente
-            ResultSet rs = getCliente(id);
-
-            // Si no existe el Resultset
-            if (rs == null)
-            {
-                System.out.println("ERROR. ResultSet null.");
-                return false;
-            }
-
-            // Si existe y tiene primer registro, lo eliminamos
-            if (rs.first())
-            {
-                rs.deleteRow();
-                rs.close();
-                System.out.println("OK!");
-                return true;
-            }
-            else
-            {
-                System.out.println("ERROR. ResultSet vacío.");
-                return false;
-            }
-
-        }
-
-        catch (SQLException ex)
-        {
-            ex.printStackTrace();
-            return false;
-        }
-    }
-
+//    public static boolean deleteCliente(int id)
+//    {
+//        try {
+//            System.out.print("Eliminando cliente " + id + "... ");
+//
+//            // Obtenemos el cliente
+//            ResultSet rs = getCliente(id);
+//
+//            // Si no existe el Resultset
+//            if (rs == null)
+//            {
+//                System.out.println("ERROR. ResultSet null.");
+//                return false;
+//            }
+//
+//            // Si existe y tiene primer registro, lo eliminamos
+//            if (rs.first())
+//            {
+//                rs.deleteRow();
+//                rs.close();
+//                System.out.println("OK!");
+//                return true;
+//            }
+//            else
+//            {
+//                System.out.println("ERROR. ResultSet vacío.");
+//                return false;
+//            }
+//
+//        }
+//
+//        catch (SQLException ex)
+//        {
+//            ex.printStackTrace();
+//            return false;
+//        }
+//    }
     /**
      *
      * @param tabla_
