@@ -61,13 +61,10 @@ public class GestionClientes {
 			try {
 				System.out.print(mensaje);
 				String linea = ent.nextLine();
+				ent.nextLine();
 				return linea;
 			} catch (Exception e) {
 				System.out.println("No has introducido una cadena de texto. Vuelve a intentarlo.");
-			}
-			finally
-			{
-				ent.nextLine();
 			}
 		}
 	}
@@ -211,9 +208,6 @@ public class GestionClientes {
 		File file = new File(borrar);
 		
 		DBManager.borrarDatosDesdeFichero(file);
-		
-		
-//		DBManager.removePorFichero(borrar);
 	}
 
 	/**

@@ -649,62 +649,6 @@ public class DBManager {
 			ex.printStackTrace();
 		}
 	}
-
-    /**
-     * Elimina cliente mediante fichero
-     * @param ruta
-     */
-    public static void removePorFichero(File ruta)
-    {
-		try
-		{
-			BufferedReader br = new BufferedReader(new FileReader(ruta));
-
-			String linea = "";
-			String[] infoPrincipal = new String[2];
-
-			// BD, Nombre de tabla y Cabecera
-			for (int nl = 1; nl <= 2; nl++) 
-			{
-				linea = br.readLine();
-				infoPrincipal[nl - 1] = linea;
-			}
-
-			String bd = infoPrincipal[0];
-			String nombre = infoPrincipal[1];
-
-			Statement statement = conn.createStatement();
-
-			// Busco las primary keys
-			DatabaseMetaData dmd = conn.getMetaData();
-			ResultSet rspk = dmd.getPrimaryKeys(null, null, nombre);
-
-			String primaryKeyNombre = "";
-			while (rspk.next())
-				primaryKeyNombre = rspk.getString("COLUMN_NAME");
-
-			// Formulo la sentencia y envio el update
-			while ((linea = br.readLine()) != null)
-			{
-				String[] primaryKeys = linea.split(",");
-				for (String primaryKey : primaryKeys) 
-				{
-					String sentenciaWhere = primaryKeyNombre + "=" + primaryKey;
-					String stringSQL = "delete from " + bd + "." + nombre + " where " + sentenciaWhere;
-					statement.executeUpdate(stringSQL);
-				}
-			}
-			statement.close();
-			br.close();
-			System.out.println("Clientes borrados correctamentes.");
-
-		}
-		catch (Exception ex)
-		{
-			System.err.println(ex.getMessage());
-			ex.printStackTrace();
-		}
-	}
     
     /**
      * Lee los datos de un fichero y devuelve un String[]
