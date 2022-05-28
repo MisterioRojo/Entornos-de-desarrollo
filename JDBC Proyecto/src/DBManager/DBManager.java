@@ -1,6 +1,8 @@
 package DBManager;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.sql.CallableStatement;
@@ -13,11 +15,12 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.Scanner;
 
 /*
  * Por Alejandro Rodriguez Mena
  *
- * V1.3
+ * V.F
  *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -437,7 +440,7 @@ public class DBManager {
         }
     }
     /**
-     *
+     *Vuelva el contenido de la bbdd en un fichero
      * @param tabla_
      */
     public static void volcarTabla(String tabla_)
@@ -496,7 +499,7 @@ public class DBManager {
 
     // METODO INSERTAR
     /**
-     *
+     *Inserta clientes en la bbdd mediante un fichero
      * @param ruta
      */
     public static void insertarPorFichero(String ruta)
@@ -568,7 +571,7 @@ public class DBManager {
     }
 
     /**
-     * 
+     * Actualiza la bbdd mediante un fichero
      * @param ruta
      */
 	public static void updatePorFichero(String ruta)
@@ -648,10 +651,10 @@ public class DBManager {
 	}
 
     /**
-     * 
+     * Elimina cliente mediante fichero
      * @param ruta
      */
-    public static void removePorFichero(String ruta)
+    public static void removePorFichero(File ruta)
     {
 		try
 		{
@@ -694,6 +697,7 @@ public class DBManager {
 			statement.close();
 			br.close();
 			System.out.println("Clientes borrados correctamentes.");
+
 		}
 		catch (Exception ex)
 		{
@@ -701,5 +705,86 @@ public class DBManager {
 			ex.printStackTrace();
 		}
 	}
+    
+    /**
+     * Lee los datos de un fichero y devuelve un String[]
+     * @param ruta
+     * @return
+     */
+    public static String[] leerDatosFichero(File ruta) {
+		String informacion;
+		Scanner lectorFichero = null;
+		Scanner lectorFichero1 = null;
+		int numLineas = 0;
+		try {
+			lectorFichero = new Scanner(ruta);
+			lectorFichero1 = new Scanner(ruta);
+
+		} catch (FileNotFoundException e) {
+			System.err.println("No existe la ruta indicada");
+		}
+
+		do {
+			//leemos los datos del fichero
+			informacion = lectorFichero1.nextLine();
+			//almacenamos el numero de lineas del fichero
+			numLineas++;
+		} while (lectorFichero1.hasNext());
+		lectorFichero1.close();
+		//creamos un array con la posiciones de ese numero de lineas
+		String array[] = new String[numLineas];
+		//igualamos el numero de lineas a 0 para que empieze en la posicon 0 a guardar
+		numLineas = 0;
+		do {
+			//leemos los datos del fichero
+			informacion = lectorFichero.nextLine();
+			//en cada posicion almacenara una linea del fichero
+			array[numLineas] = informacion;
+			//incrementamos el numero de lineas para que en cada posicon guarden los datos
+			numLineas++;
+		} while (lectorFichero.hasNext());
+		lectorFichero.close();
+		return array;
+	}
+    
+    /**
+     * Elimina clientes de la bbdd mediante un fichero.
+     * @param ruta
+     * @throws SQLException
+     */
+    public static void borrarDatosDesdeFichero(File ruta) throws SQLException {
+		//metemos en un array la lectura del fichero
+		String array[] = leerDatosFichero(ruta);
+		//almacenamos el nombre de la base de datos
+		String nombreBaseDatos = array[0];
+		//almacenamos el nombre de la tabla
+		String nombreTabla = array[1];
+		//almacenamos el nombre del campo clave
+		String campoClave = array[2];
+		//almacenamos los datos del campo
+		String identificadorClave[] = array[3].split(",");
+		String informacion = "";
+		PreparedStatement miStatement = null;
+		//recorremos el array
+		for (int i = 0; i < identificadorClave.length; i++) {
+			//gauradamos el contendido de cada campo con comillas
+			informacion += "'" + identificadorClave[i] + "'";
+			try {
+				//consulta para borrar los datos
+				miStatement = conn.prepareStatement("delete from " + nombreBaseDatos + "." + nombreTabla + " where "
+						+ campoClave + " = " + informacion + ";");
+				miStatement.executeUpdate();
+				//borramos el contenido para guardar el siguiente dato a borrar
+				informacion = "";
+			} catch (SQLException e) {
+				System.out.println("ERROR: No se ha podido borrar al cliente");
+			}
+		}
+		if(miStatement.executeUpdate() == 1)
+		{
+			System.out.println("Cliente eliminado.");
+		}
+	}
+
 
 }

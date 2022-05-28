@@ -2,4 +2,3 @@ tienda
 clientes
 id,nombre,direccion
 11,Lionel,Valencia
-12,Sergi,Valencia

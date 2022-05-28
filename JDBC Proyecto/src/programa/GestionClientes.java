@@ -1,4 +1,5 @@
 package programa;
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
@@ -9,7 +10,7 @@ import DBManager.DBManager;
 /*
  * Por Alejandro Rodriguez Mena
  *
- * V1.3.1
+ * V.F
  *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
@@ -203,10 +204,16 @@ public class GestionClientes {
 	
 	/**
 	 * Metodo que llama a una funcion que elimina clientes mediante un fichero ya diseñado
+	 * @throws SQLException 
 	 */
-	public static void opcionEliminarClienteFichero()
+	public static void opcionEliminarClienteFichero() throws SQLException
 	{
-		DBManager.removePorFichero(borrar);
+		File file = new File(borrar);
+		
+		DBManager.borrarDatosDesdeFichero(file);
+		
+		
+//		DBManager.removePorFichero(borrar);
 	}
 
 	/**
