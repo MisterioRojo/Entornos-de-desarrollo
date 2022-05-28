@@ -191,7 +191,6 @@ public class GestionClientes {
 	public static void opcionInsertarClienteFichero() throws IOException
 	{
 		DBManager.insertarPorFichero(insertar);
-		System.out.println("Clientes insertados correctamente.");
 	}
 	
 	/**
@@ -200,7 +199,6 @@ public class GestionClientes {
 	public static void opcionActualizarClienteFichero()
 	{
 		DBManager.updatePorFichero(actualizar);
-		System.out.println("Clientes actualizados correctamente");
 	}
 	
 	/**
@@ -209,7 +207,6 @@ public class GestionClientes {
 	public static void opcionEliminarClienteFichero()
 	{
 		DBManager.removePorFichero(borrar);
-		System.out.println("Clientes borrados correctamentes.");
 	}
 
 	/**

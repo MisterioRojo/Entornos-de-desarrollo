@@ -558,11 +558,12 @@ public class DBManager {
     		statement.close();
     		tablaRS.close();
     		br.close();
+    		System.out.println("Clientes insertados correctamente.");
     	}
     	catch (Exception ex)
     	{
-    		System.err.println(ex.getMessage());
-    		ex.printStackTrace();
+    		System.err.println("ERROR. Ya has introducido los datos del fichero. Actualiza el fichero.");
+    	
     	}
     }
 
@@ -636,6 +637,8 @@ public class DBManager {
 			statement.close();
 			tablaRS.close();
 			br.close();
+			System.out.println("Clientes actualizados correctamente");
+
 		}
 		catch (Exception ex)
 		{
@@ -690,6 +693,7 @@ public class DBManager {
 			}
 			statement.close();
 			br.close();
+			System.out.println("Clientes borrados correctamentes.");
 		}
 		catch (Exception ex)
 		{
