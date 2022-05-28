@@ -688,7 +688,6 @@ public class DBManager {
 					statement.executeUpdate(stringSQL);
 				}
 			}
-
 			statement.close();
 			br.close();
 		}
