@@ -79,17 +79,33 @@ public class GestionClientes {
 		DBManager.printNombresClientes();
 	}
 	
+	
 	public static void opcionInsertarCliente()
 	{
-		DBManager.insertarPorFichero(insertar);
+		DBManager.insertCliente(insertar);
 	}
 	
-	public static void opcionActualizarCliente()
+	public static void updateCliente()
 	{
 		DBManager.updatePorFichero(actualizar);
 	}
 	
-	public static void opcionEliminarCliente()
+	public static void deleteCliente()
+	{
+		DBManager.removePorFichero(borrar);
+	}
+	
+	public static void opcionInsertarClienteFichero()
+	{
+		DBManager.insertarPorFichero(insertar);
+	}
+	
+	public static void opcionActualizarClienteFichero()
+	{
+		DBManager.updatePorFichero(actualizar);
+	}
+	
+	public static void opcionEliminarClienteFichero()
 	{
 		DBManager.removePorFichero(borrar);
 	}
@@ -102,9 +118,12 @@ public class GestionClientes {
 		System.out.println("2. Nuevo cliente");
 		System.out.println("3. Actualizar cliente");
 		System.out.println("4. Eliminar cliente");
-		System.out.println("5. Ver nombres de los clientes ordenados");
-		System.out.println("6. Volcar datos de una tabla");
-		System.out.println("7. Salir");
+		System.out.println("5. Nuevo cliente por fichero");
+		System.out.println("6. Actualizar cliente por fichero");
+		System.out.println("7. Eliminar cliente por fichero");
+		System.out.println("8. Ver nombres de los clientes ordenados");
+		System.out.println("9. Volcar datos de una tabla");
+		System.out.println("10. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
 		switch (opcion)
@@ -121,25 +140,40 @@ public class GestionClientes {
 		}
 		case 3:
 		{
-			opcionActualizarCliente();
+			updateCliente();
 			return false;
 		}
 		case 4:
 		{
-			opcionEliminarCliente();
+			opcionEliminarClienteFichero();
 			return false;
 		}
 		case 5:
 		{
-			opcionMostrarNombres();
+			opcionInsertarClienteFichero();
 			return false;
 		}
 		case 6:
 		{
-			opcionVolcarTabla();
+			opcionActualizarClienteFichero();
 			return false;
 		}
 		case 7:
+		{
+			opcionEliminarClienteFichero();
+			return false;
+		}
+		case 8:
+		{
+			opcionMostrarNombres();
+			return false;
+		}
+		case 9:
+		{
+			opcionVolcarTabla();
+			return false;
+		}
+		case 10:
 		{
 			System.out.println("Has salido del menu.");
 			return true;
