@@ -1,0 +1,4 @@
+tienda
+clientes
+nombre
+Lionel,Valencia
