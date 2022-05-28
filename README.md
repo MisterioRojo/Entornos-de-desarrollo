@@ -1,3 +1,4 @@
 # Entornos-de-desarrollo
 
-Ejercicio de Java y usando base de datos con MySql. Archivos dados por el profesor sin modificacion.
+- Cambios menores en la ortografia y refactorizado de los metodos
+- Se han eliminado metodos anticuados, se ha mejorado la lectura del programa

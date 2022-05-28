@@ -605,7 +605,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
                 try {
                     // Eliminamos el cliente actual
                     int id = Integer.parseInt(lblIdCliente.getText());
-                    DBManager.deleteCliente(id);
+//                    DBManager.deleteCliente(id);
 
                     // Actualizamos datos de clientes
                     obtenerClientes();
@@ -632,7 +632,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         // Registramos nuevo cliente en la base de datos
         String nombre = txtVNCNombre.getText();
         String direccion = txtVNCDireccion.getText();
-        DBManager.insertCliente(nombre, direccion);
+//        DBManager.insertCliente(nombre, direccion);
 
         // Ocultamos ventana de nuevo cliente y mostramos ventana principal
         jfNuevoCliente.setVisible(false);
@@ -653,7 +653,7 @@ public class GestionClientesIGU extends javax.swing.JFrame {
         int id = Integer.parseInt(lblVECIdCliente.getText());
         String nombre = txtVECNombre.getText();
         String direccion = txtVECDireccion.getText();
-        DBManager.updateCliente(id, nombre, direccion);
+//        DBManager.updateCliente(id, nombre, direccion);
 
         // Ocultamos ventana de nuevo cliente y mostramos ventana principal
         jfEditarCliente.setVisible(false);

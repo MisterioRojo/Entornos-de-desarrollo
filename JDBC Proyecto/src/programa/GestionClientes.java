@@ -78,91 +78,18 @@ public class GestionClientes {
 		System.out.println("Listado de Clientes: \n");
 		DBManager.printNombresClientes();
 	}
-	public static void opcionNuevoCliente()
-	{
-		System.out.println("Introduce los datos del nuevo cliente:");
-		String nombre = pideLinea("Nombre: ");
-		String direccion = pideLinea("Direccion: ");
-
-		boolean res = DBManager.insertCliente(nombre, direccion);
-
-		if (res)
-		{
-			System.out.println("Cliente registrado correctamente");
-		}
-		else
-		{
-			System.out.println("Error :(");
-		}
-	}
-
-	public static void opcionModificarCliente()
-	{
-
-		int id = pideInt("Indica el id del cliente a modificar: ");
-
-		// Comprobamos si existe el cliente
-		if (!DBManager.existsCliente(id))
-		{
-			System.out.println("El cliente " + id + " no existe.");
-			return;
-		}
-
-		// Mostramos datos del cliente a modificar
-		DBManager.printCliente(id);
-
-		// Solicitamos los nuevos datos
-		String nombre = pideLinea("Nuevo nombre: ");
-		String direccion = pideLinea("Nueva direccion: ");
-
-		// Registramos los cambios
-		boolean res = DBManager.updateCliente(id, nombre, direccion);
-
-		if (res)
-		{
-			System.out.println("Cliente modificado correctamente");
-		}
-		else
-		{
-			System.out.println("Error :(");
-		}
-	}
-
-	public static void opcionEliminarCliente()
-	{
-		int id = pideInt("Indica el id del cliente a eliminar: ");
-
-		// Comprobamos si existe el cliente
-		if (!DBManager.existsCliente(id))
-		{
-			System.out.println("El cliente " + id + " no existe.");
-			return;
-		}
-
-		// Eliminamos el cliente
-		boolean res = DBManager.deleteCliente(id);
-
-		if (res)
-		{
-			System.out.println("Cliente eliminado correctamente");
-		}
-		else
-		{
-			System.out.println("Error :(");
-		}
-	}
 	
-	public static void insertarCliente()
+	public static void opcionInsertarCliente()
 	{
 		DBManager.insertarPorFichero(insertar);
 	}
 	
-	public static void actualizarCliente()
+	public static void opcionActualizarCliente()
 	{
 		DBManager.updatePorFichero(actualizar);
 	}
 	
-	public static void  eliminarCliente()
+	public static void opcionEliminarCliente()
 	{
 		DBManager.removePorFichero(borrar);
 	}
@@ -174,12 +101,10 @@ public class GestionClientes {
 		System.out.println("1. Listar clientes");
 		System.out.println("2. Nuevo cliente");
 		System.out.println("3. Actualizar cliente");
-		System.out.println("4. Modificar cliente");
-		System.out.println("5. Eliminar cliente");
-		System.out.println("6. Ver nombres de los clientes ordenados");
-		System.out.println("7. Volcar datos de una tabla");
-		System.out.println("7. Eliminar datos de una tabla");
-		System.out.println("8. Salir");
+		System.out.println("4. Eliminar cliente");
+		System.out.println("5. Ver nombres de los clientes ordenados");
+		System.out.println("6. Volcar datos de una tabla");
+		System.out.println("7. Salir");
 
 		int opcion = pideInt("Elige una opcion: ");
 		switch (opcion)
@@ -191,46 +116,34 @@ public class GestionClientes {
 		}
 		case 2:
 		{
-//			opcionNuevoCliente();
-			insertarCliente();
+			opcionInsertarCliente();
 			return false;
 		}
 		case 3:
 		{
-			actualizarCliente();
+			opcionActualizarCliente();
 			return false;
 		}
 		case 4:
 		{
-			opcionModificarCliente();
+			opcionEliminarCliente();
 			return false;
 		}
 		case 5:
 		{
-			opcionEliminarCliente();
+			opcionMostrarNombres();
 			return false;
 		}
 		case 6:
 		{
-			opcionMostrarNombres();
+			opcionVolcarTabla();
 			return false;
 		}
 		case 7:
 		{
-			opcionVolcarTabla();
-			return false;
-		}
-		case 8:
-		{
 			System.out.println("Has salido del menu.");
 			return true;
-		}
-		case 9:
-		{
-			System.out.println("Has salido del menu.");
-			return true;
-		}
-		
+		}		
 		default:
 		{
 			System.err.println("Opcion elegida incorrecta");
