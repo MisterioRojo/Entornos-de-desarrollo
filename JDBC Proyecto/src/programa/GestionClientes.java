@@ -22,6 +22,11 @@ public class GestionClientes {
     
     private static final String borrar = "./delete.txt";
 
+    /**
+     * Funcion que pide un numero entero y devuelve un numero entero. Controla excepciones
+     * @param mensaje
+     * @return
+     */
 	public static int pideInt(String mensaje)
 	{
 		while(true)
@@ -43,6 +48,11 @@ public class GestionClientes {
 		}
 	}
 
+	/**
+	 * Funcion que pide una cadena de String y devuelve una cadena de String. Controla las excepciones
+	 * @param mensaje
+	 * @return
+	 */
 	public static String pideLinea(String mensaje){
 
 		while(true) {
@@ -60,56 +70,146 @@ public class GestionClientes {
 		}
 	}
 
+	/**
+	 * Metodo que llama a una funcion que muestra el contenido de la bbdd
+	 */
 	public static void opcionMostrarClientes()
 	{
 		System.out.println("Listado de Clientes:");
 		DBManager.printTablaClientes();
 	}
 	
+	/**
+	 * Metodo que llama a una funcion que vuelca la bbdd en un fichero.
+	 */
 	public static void opcionVolcarTabla()
 	{
-		System.out.println("¿Que tabla quieres volvar?: ");
+		System.out.println("¿Que tabla quieres volcar?: ");
 		String tabla = ent.nextLine();;
 		DBManager.volcarTabla(tabla);
 	}
 
+	/**
+	 * MEtodo que llama a una funcion  que muestra los clientes de la bbdd
+	 * @throws SQLException
+	 */
 	public static void opcionMostrarNombres() throws SQLException
 	{
 		System.out.println("Listado de Clientes: \n");
 		DBManager.printNombresClientes();
 	}
 	
-	
+	/**
+	 * Metodo que añade un cliente a la bbdd
+	 */
 	public static void opcionInsertarCliente()
 	{
-		DBManager.insertCliente(insertar);
+		System.out.println("Introduce los datos del nuevo cliente:");
+		String nombre = pideLinea("Nombre: ");
+		String direccion = pideLinea("Direccion: ");
+
+		boolean res = DBManager.insertCliente(nombre, direccion);
+
+		if (res)
+		{
+			System.out.println("Cliente registrado correctamente");
+		}
+		else
+		{
+			System.out.println("Error :(");
+		}
 	}
 	
+	/**
+	 * Metodo que actualiza la informacion de un cliente en la bbdd
+	 */
 	public static void updateCliente()
 	{
-		DBManager.updatePorFichero(actualizar);
+		int id = pideInt("Indica el id del cliente a modificar: ");
+
+		// Comprobamos si existe el cliente
+		if (!DBManager.existsCliente(id))
+		{
+			System.out.println("El cliente " + id + " no existe.");
+			return;
+		}
+
+		// Mostramos datos del cliente a modificar
+		DBManager.printCliente(id);
+
+		// Solicitamos los nuevos datos
+		String nombre = pideLinea("Nuevo nombre: ");
+		String direccion = pideLinea("Nueva direccion: ");
+
+		// Registramos los cambios
+		boolean res = DBManager.updateCliente(id, nombre, direccion);
+
+		if (res)
+		{
+			System.out.println("Cliente modificado correctamente");
+		}
+		else
+		{
+			System.out.println("Error :(");
+		}
 	}
 	
+	/**
+	 * Metodo que elimina un cliente de la bbdd
+	 */
 	public static void deleteCliente()
 	{
-		DBManager.removePorFichero(borrar);
+		int id = pideInt("Indica el id del cliente a eliminar: ");
+
+		// Comprobamos si existe el cliente
+		if (!DBManager.existsCliente(id))
+		{
+			System.out.println("El cliente " + id + " no existe.");
+			return;
+		}
+
+		// Eliminamos el cliente
+		boolean res = DBManager.deleteCliente(id);
+
+		if (res)
+		{
+			System.out.println("Cliente eliminado correctamente");
+		}
+		else
+		{
+			System.out.println("Error :(");
+		}
 	}
 	
+	/**
+	 * Metodo que llama a una funcion que añade clientes mediante un fichero ya diseñado
+	 */
 	public static void opcionInsertarClienteFichero()
 	{
 		DBManager.insertarPorFichero(insertar);
 	}
 	
+	/**
+	 * Metodo que llama a una funcion que actualiza clientes mediante un fichero ya diseñado
+	 */
 	public static void opcionActualizarClienteFichero()
 	{
 		DBManager.updatePorFichero(actualizar);
 	}
 	
+	/**
+	 * Metodo que llama a una funcion que elimina clientes mediante un fichero ya diseñado
+	 */
 	public static void opcionEliminarClienteFichero()
 	{
 		DBManager.removePorFichero(borrar);
 	}
 
+	/**
+	 * Metodo que muestra el menu principal.
+	 * @return
+	 * @throws SQLException
+	 */
 	public static boolean menuPrincipal() throws SQLException
 	{
 		System.out.println("");
@@ -186,6 +286,11 @@ public class GestionClientes {
 		}
 	}
 
+	/**
+	 * Main
+	 * @param args
+	 * @throws SQLException
+	 */
 	public static void main(String[] args) throws SQLException
 	{
 		DBManager.loadDriver();
