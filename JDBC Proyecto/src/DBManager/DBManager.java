@@ -509,10 +509,10 @@ public class DBManager {
     		String[] infoPrincipal = new String[3];
 
     		// BD, Nombre de tabla y Cabecera
-    		for (int nl = 1; nl <= 3; nl++)
+    		for (int nl = 0; nl <= 2; nl++)
     		{
     			linea = br.readLine();
-    			infoPrincipal[nl - 1] = linea;
+    			infoPrincipal[nl] = linea;
     		}
 
     		String bd = infoPrincipal[0];
@@ -580,10 +580,10 @@ public class DBManager {
     		String[] infoPrincipal = new String[3];
 
     		// BD, Nombre de tabla y Cabecera
-    		for (int nl = 1; nl <= 3; nl++)
+    		for (int nl = 0; nl <= 2; nl++)
     		{
     			linea = br.readLine();
-    			infoPrincipal[nl - 1] = linea;
+    			infoPrincipal[nl] = linea;
     		}
 
     		String bd = infoPrincipal[0];
@@ -622,10 +622,10 @@ public class DBManager {
     			String sentenciaWhere = primaryKeys + "=" + primaryKeys_;
     			String sentenciaSet = "";
 
-    			for (int i = 1; i <= columnas_.length; i++)
+    			for (int i = 0; i <= columnas_.length; i++)
     			{
-    				sentenciaSet += tipos[i-1] == "VARCHAR" ? columnas_[i-1] + "='" + datos[i] + "',"
-    						: columnas_[i-1] + "=" + datos[i] + ",";
+    				sentenciaSet += tipos[i] == "VARCHAR" ? columnas_[i] + "='" + datos[i+1] + "',"
+    						: columnas_[i] + "=" + datos[i+1] + ",";
     			}
     			sentenciaSet = sentenciaSet.substring(0, sentenciaSet.length() - 1);
 
