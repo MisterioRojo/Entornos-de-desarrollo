@@ -3,6 +3,7 @@ package DBManager;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -439,8 +440,9 @@ public class DBManager {
 	/**
 	 *
 	 * @param tabla_
+	 * @throws IOException 
 	 */
-	public static void volcarTabla(String tabla_)
+	public static void volcarTabla(String tabla_) throws IOException
 	{
 		try
 		{
@@ -486,7 +488,7 @@ public class DBManager {
 			tablaRS.close();
 			fw.close();
 		}
-		catch (Exception ex)
+		catch (SQLException ex)
 		{
 			System.err.println("ERROR. No se ha podido volcar los datos.");
 			System.out.println(ex.getMessage());
@@ -498,8 +500,9 @@ public class DBManager {
 	/**
 	 *
 	 * @param ruta
+	 * @throws IOException 
 	 */
-	public static void insertarPorFichero(String ruta)
+	public static void insertarPorFichero(String ruta) throws IOException
 	{
 		try
 		{
@@ -559,10 +562,9 @@ public class DBManager {
 			tablaRS.close();
 			br.close();
 		}
-		catch (Exception ex)
+		catch (SQLException ex)
 		{
-			System.err.println(ex.getMessage());
-			ex.printStackTrace();
+			System.err.println("ERROR. Clientes ya añladidos por el fichero. Actualice el fichero.");
 		}
 	}
 

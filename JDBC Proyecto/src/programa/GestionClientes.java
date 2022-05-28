@@ -1,4 +1,5 @@
 package programa;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -81,8 +82,9 @@ public class GestionClientes {
 	
 	/**
 	 * Metodo que llama a una funcion que vuelca la bbdd en un fichero.
+	 * @throws IOException 
 	 */
-	public static void opcionVolcarTabla()
+	public static void opcionVolcarTabla() throws IOException
 	{
 		System.out.println("¿Que tabla quieres volcar?: ");
 		String tabla = ent.nextLine();;
@@ -184,8 +186,9 @@ public class GestionClientes {
 	
 	/**
 	 * Metodo que llama a una funcion que añade clientes mediante un fichero ya diseñado
+	 * @throws IOException 
 	 */
-	public static void opcionInsertarClienteFichero()
+	public static void opcionInsertarClienteFichero() throws IOException
 	{
 		DBManager.insertarPorFichero(insertar);
 		System.out.println("Clientes insertados correctamente.");
@@ -213,8 +216,9 @@ public class GestionClientes {
 	 * Metodo que muestra el menu principal.
 	 * @return
 	 * @throws SQLException
+	 * @throws IOException 
 	 */
-	public static boolean menuPrincipal() throws SQLException
+	public static boolean menuPrincipal() throws SQLException, IOException
 	{
 		System.out.println("");
 		System.out.println("MENU PRINCIPAL");
@@ -294,8 +298,9 @@ public class GestionClientes {
 	 * Main
 	 * @param args
 	 * @throws SQLException
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws SQLException
+	public static void main(String[] args) throws SQLException, IOException
 	{
 		DBManager.loadDriver();
 		DBManager.connect();
