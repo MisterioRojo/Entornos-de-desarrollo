@@ -20,7 +20,7 @@ public class GestionClientes {
     
     private static final String actualizar = "./update.txt";
     
-    private static final String borrar = "./delete.txt";
+    private static final String borrar = "./remove.txt";
 
     /**
      * Funcion que pide un numero entero y devuelve un numero entero. Controla excepciones
@@ -87,6 +87,7 @@ public class GestionClientes {
 		System.out.println("¿Que tabla quieres volcar?: ");
 		String tabla = ent.nextLine();;
 		DBManager.volcarTabla(tabla);
+		System.out.println("Clientes volcados al fichero.");
 	}
 
 	/**
@@ -187,6 +188,7 @@ public class GestionClientes {
 	public static void opcionInsertarClienteFichero()
 	{
 		DBManager.insertarPorFichero(insertar);
+		System.out.println("Clientes insertados correctamente.");
 	}
 	
 	/**
@@ -195,6 +197,7 @@ public class GestionClientes {
 	public static void opcionActualizarClienteFichero()
 	{
 		DBManager.updatePorFichero(actualizar);
+		System.out.println("Clientes actualizados correctamente");
 	}
 	
 	/**
@@ -203,6 +206,7 @@ public class GestionClientes {
 	public static void opcionEliminarClienteFichero()
 	{
 		DBManager.removePorFichero(borrar);
+		System.out.println("Clientes borrados correctamentes.");
 	}
 
 	/**
