@@ -2,3 +2,4 @@ tienda
 clientes
 nombre,direccion
 7,Juan,Barcelona
+8,Carlos,Madrid

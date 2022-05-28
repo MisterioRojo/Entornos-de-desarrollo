@@ -2,3 +2,4 @@ tienda
 clientes
 id,nombre,direccion
 11,Lionel,Valencia
+13,Marcos,Salamanca
