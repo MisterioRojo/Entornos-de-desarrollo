@@ -8,7 +8,7 @@ import DBManager.DBManager;
 /*
  * Por Alejandro Rodriguez Mena
  *
- * V1.3
+ * V1.3.1
  *
  * Ejercicio final de clase en el que accederemos a una base de datos usando java
  */
